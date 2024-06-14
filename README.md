@@ -60,3 +60,4 @@ if (pendingDeposit > assetsToWithdraw) {
 
 let us know if assets will go inside the vault or out of the vault 
 Like that, as manager of the vault we can use the minimum amount of asset to settle everybody’s request 
+# Vault
