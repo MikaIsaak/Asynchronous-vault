@@ -148,9 +148,7 @@ abstract contract SyncVault is
     }
 
     /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() {
-        _disableInitializers();
-    }
+    constructor() { }
 
     function initialize(
         uint16 fees,

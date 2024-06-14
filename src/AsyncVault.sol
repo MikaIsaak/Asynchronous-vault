@@ -286,9 +286,7 @@ contract AsyncVault is IERC7540, SyncVault {
      */
 
     /// @custom:oz-upgrades-unsafe-allow constructor
-    constructor() SyncVault() {
-        _disableInitializers();
-    }
+    constructor() SyncVault() { }
 
     function initialize(
         uint16 fees,
@@ -1051,10 +1049,8 @@ contract AsyncVault is IERC7540, SyncVault {
             - settleValues.assetsToWithdraw;
         lastSavedBalance = settleValues.lastSavedBalance;
 
-        epochs[epochId].totalSupplySnapshot =
-            settleValues.totalSupplySnapshot;
-        epochs[epochId].totalAssetsSnapshot =
-            settleValues.totalAssetsSnapshot;
+        epochs[epochId].totalSupplySnapshot = settleValues.totalSupplySnapshot;
+        epochs[epochId].totalAssetsSnapshot = settleValues.totalAssetsSnapshot;
 
         epochId++;
 

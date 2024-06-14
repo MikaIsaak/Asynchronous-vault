@@ -54,12 +54,7 @@ contract TestBase is AssertionsRequest {
         mint(vault, user, USDC.balanceOf(user.addr));
     }
 
-    function deposit(
-        AsyncVault vault,
-        VmSafe.Wallet memory user
-    )
-        internal
-    {
+    function deposit(AsyncVault vault, VmSafe.Wallet memory user) internal {
         deposit(vault, user, USDC.balanceOf(user.addr));
     }
 
@@ -159,12 +154,7 @@ contract TestBase is AssertionsRequest {
         vault.mint(amount, user.addr);
     }
 
-    function redeem(
-        AsyncVault vault,
-        VmSafe.Wallet memory user
-    )
-        internal
-    {
+    function redeem(AsyncVault vault, VmSafe.Wallet memory user) internal {
         redeem(vault, user, vault.balanceOf(user.addr));
     }
 
@@ -201,12 +191,7 @@ contract TestBase is AssertionsRequest {
         vault.withdraw(amount, user.addr, user.addr);
     }
 
-    function withdraw(
-        AsyncVault vault,
-        VmSafe.Wallet memory user
-    )
-        internal
-    {
+    function withdraw(AsyncVault vault, VmSafe.Wallet memory user) internal {
         withdraw(vault, user, USDC.balanceOf(user.addr));
     }
 
@@ -249,7 +234,7 @@ contract TestBase is AssertionsRequest {
         internal
     {
         vm.startPrank(sender.addr);
-        vm.expectRevert(/*selector*/);
+        vm.expectRevert( /*selector*/ );
         vault.withdraw(amount, owner.addr, owner.addr);
     }
 
@@ -276,7 +261,7 @@ contract TestBase is AssertionsRequest {
         internal
     {
         vm.startPrank(user.addr);
-        vm.expectRevert(/*selector*/);
+        vm.expectRevert( /*selector*/ );
         vault.withdraw(amount, user.addr, user.addr);
     }
 
@@ -289,7 +274,7 @@ contract TestBase is AssertionsRequest {
         internal
     {
         vm.startPrank(user.addr);
-        vm.expectRevert(/*revertData*/);
+        vm.expectRevert( /*revertData*/ );
         vault.withdraw(amount, user.addr, user.addr);
     }
 
@@ -314,7 +299,7 @@ contract TestBase is AssertionsRequest {
         internal
     {
         vm.startPrank(user.addr);
-        vm.expectRevert(/*revertData*/);
+        vm.expectRevert( /*revertData*/ );
         vault.redeem(shares, user.addr, user.addr);
     }
 
@@ -483,12 +468,7 @@ contract TestBase is AssertionsRequest {
         }
     }
 
-    function usersRequestRedeem(
-        AsyncVault vault,
-        uint256 userMax
-    )
-        internal
-    {
+    function usersRequestRedeem(AsyncVault vault, uint256 userMax) internal {
         userMax = userMax > users.length ? users.length : userMax;
         for (uint256 i = 0; i < userMax; i++) {
             _requestRedeemInVault(vault, users[i].addr);
@@ -608,12 +588,7 @@ contract TestBase is AssertionsRequest {
         vm.stopPrank();
     }
 
-    function _requestRedeemInVault(
-        AsyncVault vault,
-        address owner
-    )
-        internal
-    {
+    function _requestRedeemInVault(AsyncVault vault, address owner) internal {
         vm.startPrank(owner);
         console.log("Redeem request amount", vault.balanceOf(owner));
         vault.requestRedeem(vault.balanceOf(owner), owner, owner, "");

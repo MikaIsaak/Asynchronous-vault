@@ -135,10 +135,16 @@ abstract contract Constants is Test {
                 Upgrades.deployBeacon("AsyncVault.sol", amphorLabs, deploy)
             );
         }
-    
+
         if (proxy) {
             vaultUSDC = _proxyDeploy(
-                beacon, amphorLabs, amphorLabs, USDC, bootstrapUSDC, vaultNameUSDC, vaultSymbolUSDC
+                beacon,
+                amphorLabs,
+                amphorLabs,
+                USDC,
+                bootstrapUSDC,
+                vaultNameUSDC,
+                vaultSymbolUSDC
             );
         } else {
             _dealAsset(address(USDC), address(amphorLabs), bootstrapUSDC);
@@ -162,7 +168,13 @@ abstract contract Constants is Test {
 
         if (proxy) {
             vaultWSTETH = _proxyDeploy(
-                        beacon, amphorLabs, amphorLabs, WSTETH, bootstrapWETH, vaultNameWSTETH, vaultSymbolWSTETH
+                beacon,
+                amphorLabs,
+                amphorLabs,
+                WSTETH,
+                bootstrapWETH,
+                vaultNameWSTETH,
+                vaultSymbolWSTETH
             );
         } else {
             deal(address(WSTETH), address(amphorLabs), bootstrapWETH);
@@ -170,12 +182,17 @@ abstract contract Constants is Test {
             vaultWSTETH = new AsyncVault();
             WSTETH.approve(address(vaultWSTETH), bootstrapWETH);
             vaultWSTETH.initialize(
-                fees, amphorLabs, amphorLabs, WSTETH, bootstrapWETH, vaultNameWSTETH, vaultSymbolWSTETH
+                fees,
+                amphorLabs,
+                amphorLabs,
+                WSTETH,
+                bootstrapWETH,
+                vaultNameWSTETH,
+                vaultSymbolWSTETH
             );
             vm.stopPrank();
         }
-        
-        
+
         vm.label(address(vaultWSTETH), "vaultWSTETH");
         vm.label(address(vaultWSTETH.pendingSilo()), "vaultWSTETH.pendingSilo");
         vm.label(
@@ -184,7 +201,13 @@ abstract contract Constants is Test {
 
         if (proxy) {
             vaultWBTC = _proxyDeploy(
-                beacon, amphorLabs, amphorLabs, WBTC, bootstrapWBTC, vaultNameWBTC, vaultSymbolWBTC
+                beacon,
+                amphorLabs,
+                amphorLabs,
+                WBTC,
+                bootstrapWBTC,
+                vaultNameWBTC,
+                vaultSymbolWBTC
             );
         } else {
             deal(address(WBTC), address(amphorLabs), bootstrapWBTC);
@@ -192,7 +215,13 @@ abstract contract Constants is Test {
             vaultWBTC = new AsyncVault();
             WBTC.approve(address(vaultWBTC), bootstrapWBTC);
             vaultWBTC.initialize(
-                fees, amphorLabs, amphorLabs, WBTC, bootstrapWBTC, vaultNameWBTC, vaultSymbolWBTC
+                fees,
+                amphorLabs,
+                amphorLabs,
+                WBTC,
+                bootstrapWBTC,
+                vaultNameWBTC,
+                vaultSymbolWBTC
             );
             vm.stopPrank();
         }
@@ -242,26 +271,35 @@ abstract contract Constants is Test {
                     address(beacon),
                     abi.encodeCall(
                         AsyncVault.initialize,
-                        (fees, owner, treasury, _underlying, bootstrap, vaultName, vaultSymbol)
+                        (
+                            fees,
+                            owner,
+                            treasury,
+                            _underlying,
+                            bootstrap,
+                            vaultName,
+                            vaultSymbol
+                        )
                     )
                 )
             )
         );
 
         vm.startPrank(amphorLabs);
-        if (address(_underlying) == address(USDC))
+        if (address(_underlying) == address(USDC)) {
             _dealAsset(address(USDC), amphorLabs, bootstrap);
-        else
+        } else {
             deal(address(_underlying), amphorLabs, bootstrap);
+        }
         _underlying.transfer(address(proxy), bootstrap);
         vm.stopPrank();
 
         return AsyncVault(address(proxy));
     }
 
-    function _dealAsset(address asset, address owner, uint256 amount) public  {
+    function _dealAsset(address asset, address owner, uint256 amount) public {
         if (asset == address(USDC)) {
-            vm.startPrank(USDC_WHALE);
+            vm.startPrank(0x2312b961A8928e39803eb6e40cf0A0c7d72eBD1f);
             USDC.transfer(owner, amount);
             vm.stopPrank();
         } else {
