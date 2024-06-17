@@ -51,10 +51,22 @@ abstract contract VaultZapperManagement is OffChainCalls {
     }
 
     function test_failWithdrawToken_notOwner() public {
+        vm.startPrank(_amphorLabs);
         _setUpVaultAndZapper(UNDERLYING);
+        vm.stopPrank();
+
+        deal(address(_USDT), address(zapper), 1000 * 1e6);
+        uint256 initialBalance = _USDT.balanceOf(address(zapper));
+        require(initialBalance >= 1000 * 1e6, "Initial balance is insufficient");
+
+        vm.startPrank(address(zapper));
+        _USDT.approve(address(zapper), initialBalance);
+        vm.stopPrank();
+
         vm.startPrank(user);
         vm.expectRevert();
         zapper.withdrawToken(_USDT);
+        vm.stopPrank();
     }
 
     function test_withdrawNativeToken() public {
@@ -128,8 +140,13 @@ abstract contract VaultZapperManagement is OffChainCalls {
             _bootstrapAmount = vm.envUint("BOOTSTRAP_AMOUNT_SYNTHETIC_WETH");
         } else if (address(tokenOut) == wbtc) {
             _bootstrapAmount = vm.envUint("BOOTSTRAP_AMOUNT_SYNTHETIC_WBTC");
+            deal(wbtc, address(this), _bootstrapAmount); // Добавляем
+                // баланс WBTC
+            tokenOut.approve(address(_vault), _bootstrapAmount); // Разрешаем
+                // переводы
         }
 
+        vm.startPrank(_amphorLabs);
         _vault.initialize(
             10,
             _amphorLabs,

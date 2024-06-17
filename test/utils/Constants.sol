@@ -234,7 +234,7 @@ abstract contract Constants is Test {
                 == keccak256(abi.encodePacked("WSTETH"))
         ) {
             vaultTested = vaultWSTETH;
-            sigUtils = new SigUtils(WSTETH.DOMAIN_SEPARATOR());
+            // sigUtils = new SigUtils(WSTETH.DOMAIN_SEPARATOR());
             underlying = WSTETH;
             console.log(address(underlying));
         } else if (
